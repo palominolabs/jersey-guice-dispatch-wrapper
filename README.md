@@ -18,20 +18,20 @@ This library makes that wiring easier by using Guice.
 
 First, define a `ResourceMethodDispatchWrapper`. This is what will actually be involved in the request method invocation. Here, we'll have a wrapper that simply prints out the resource method name that it's invoking.
 ```
-    class LoggingWrapper implements ResourceMethodDispatchWrapper {
+class LoggingWrapper implements ResourceMethodDispatchWrapper {
 
-        private final String resourceMethodName;
+    private final String resourceMethodName;
 
-        LoggingWrapper(String resourceMethodName) {
-            this.resourceMethodName = resourceMethodName;
-        }
-
-        @Override
-        public void wrapDispatch(Object resource, HttpContext context, ResourceMethodDispatchWrapperChain chain) {
-            System.out.println("Executing method " + resourceMethodName);
-            chain.wrapDispatch(resource, context);
-        }
+    LoggingWrapper(String resourceMethodName) {
+        this.resourceMethodName = resourceMethodName;
     }
+
+    @Override
+    public void wrapDispatch(Object resource, HttpContext context, ResourceMethodDispatchWrapperChain chain) {
+        System.out.println("Executing method " + resourceMethodName);
+        chain.wrapDispatch(resource, context);
+    }
+}
 ```
 
 Next, we define a `ResourceMethodDispatchWrapperFactory` implementation to create `LoggingWrapper` instances:
