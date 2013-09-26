@@ -27,7 +27,8 @@ class LoggingWrapper implements ResourceMethodDispatchWrapper {
     }
 
     @Override
-    public void wrapDispatch(Object resource, HttpContext context, ResourceMethodDispatchWrapperChain chain) {
+    public void wrapDispatch(Object resource, HttpContext context,
+        ResourceMethodDispatchWrapperChain chain) {
         System.out.println("Executing method " + resourceMethodName);
         chain.wrapDispatch(resource, context);
     }
@@ -40,7 +41,8 @@ Next, we define a `ResourceMethodDispatchWrapperFactory` implementation to creat
 class LoggingWrapperFactory implements ResourceMethodDispatchWrapperFactory {
 
     @Override
-    public ResourceMethodDispatchWrapper createDispatchWrapper(AbstractResourceMethod abstractResourceMethod) {
+    public ResourceMethodDispatchWrapper createDispatchWrapper(
+        AbstractResourceMethod abstractResourceMethod) {
         String methodName = abstractResourceMethod.getMethod.getName();
 
         if (methodName.equals("dontLogMe")) {
@@ -57,5 +59,6 @@ Note that your Factory logic can control on a per-resource-method basis how to d
 Finally, register your Factory class:
 ```
 // in your Guice module's configure() method
-ResourceMethodWrappedDispatchModule.bindWrapperFactory(binder(), ResourceMethodDispatchWrapperFactory.class);
+ResourceMethodWrappedDispatchModule.bindWrapperFactory(binder(),
+    ResourceMethodDispatchWrapperFactory.class);
 ```
