@@ -1,4 +1,4 @@
-This library allows you to wrap the invocation of Jersey 1 resource methods the way you can with a good ol' servlet `javax.servlet.Filter`.
+This library allows you to wrap the invocation of Jersey 1 resource methods like how you can wrap servlets with a good ol' servlet `javax.servlet.Filter`.
 
 When writing `Filter`s, it's easy to have code like this:
 
@@ -10,11 +10,11 @@ takeSomeMeasurements();
 
 Since you're directly in the method invocation chain, you can easily take timing measurements, use local variables, etc.
 
-Jersey has request and response filters, but those don't really do the same thing. They make it easy to inspect or modify incoming requests or outgoing responses, but since your code isn't wrapping the actual invocation of the request processing logic, taking timing measurements or anything else best done with local variables is tricky. You can use thread locals, but it's messy.
+Jersey has request and response filters, but those don't really do the same thing as servlet filters. They make it easy to inspect or modify incoming requests or outgoing responses, but since your code isn't wrapping the actual invocation of the request processing logic, taking timing measurements or anything else best done with local variables is tricky. You can use thread locals, but it's messy.
 
 Fortunately, Jersey has `ResourceMethodDispatchAdapter` and `ResourceMethodDispatchProvider` which, together with a `RequestDispatcher`, are involved in actually calling your JAX-RS resource methods. You can use these to do `Filter`-style logic that directly wraps the invocation of your resource logic, but it takes a fair amount of wiring.
 
-This library makes that wiring easier by using Guice.
+This library makes that wiring easier (with an assist from Guice).
 
 First, define a `ResourceMethodDispatchWrapper`. This is what will actually be involved in the request method invocation. Here, we'll have a wrapper that simply prints out the resource method name that it's invoking.
 ```
