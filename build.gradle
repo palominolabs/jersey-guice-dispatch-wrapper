@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'com.palominolabs.jersey'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -80,8 +80,8 @@ uploadArchives {
       repository(url: isReleaseVersion ?
         "https://oss.sonatype.org/service/local/staging/deploy/maven2/" :
         "https://oss.sonatype.org/content/repositories/snapshots/") {
-        def u = hasProperty('sonatypeUsername') ? sonatypeUsername : 'FIXME'
-        def p = hasProperty('sonatypePassword') ? sonatypePassword : 'FIXME'
+        def u = project.hasProperty('sonatypeUsername') ? sonatypeUsername : 'FIXME'
+        def p = project.hasProperty('sonatypePassword') ? sonatypePassword : 'FIXME'
         authentication(userName: u, password: p)
       }
 
