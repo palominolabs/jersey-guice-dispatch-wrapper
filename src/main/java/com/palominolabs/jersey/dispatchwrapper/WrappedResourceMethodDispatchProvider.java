@@ -47,6 +47,14 @@ final class WrappedResourceMethodDispatchProvider implements ResourceMethodDispa
             builder.add(wrapper);
         }
 
-        return new WrappedRequestDispatcher(wrappedProvider.create(abstractResourceMethod), builder.build());
+        ImmutableList<ResourceMethodDispatchWrapper> wrappers = builder.build();
+        RequestDispatcher innerDispatcher = wrappedProvider.create(abstractResourceMethod);
+
+        if (wrappers.isEmpty()) {
+            // just use the plain, un-wrapped dispatcher
+            return innerDispatcher;
+        }
+
+        return new WrappedRequestDispatcher(innerDispatcher, wrappers);
     }
 }
